@@ -70,7 +70,7 @@ public class ServerUDP : MonoBehaviour
         while (true)
         {
             recv = socket.ReceiveFrom(data, ref Remote);
-            serverText = "Message received from {0}:" + Remote.ToString();
+            serverText = "Message received from :" + Remote.ToString();
             serverText = Encoding.ASCII.GetString(data, 0, recv);
 
             //TO DO 4

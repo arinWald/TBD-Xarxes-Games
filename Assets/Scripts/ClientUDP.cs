@@ -68,9 +68,7 @@ public class ClientUDP : MonoBehaviour
         // Si el missatge rebut és el "Ping UDP", mostrem "Ping Received" a la consola
         if (receivedMessage == "Ping UDP")
         {
-            clientText += "\nPing Received";
+            clientText = "Successfully connected to server";
         }
-
-        clientText = "\n" + receivedMessage + clientText;
     }
 }
