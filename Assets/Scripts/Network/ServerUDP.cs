@@ -11,14 +11,38 @@ public class ServerUDP : MonoBehaviour
 
     public GameObject UItextObj;
     TextMeshProUGUI UItext;
-    string serverText;
+
+    [HideInInspector]
+    public string serverText;
+    [HideInInspector]
+    public IPEndPoint ipep;
+    [HideInInspector]
+    public EndPoint Remote;
+
+    Thread playGame;
+    [HideInInspector]
+    public bool playGameThreadRunning = false;
 
     void Start()
     {
+        DontDestroyOnLoad(this);
         UItext = UItextObj.GetComponent<TextMeshProUGUI>();
-        startServer();
 
+        playGame = new Thread(GameStarter);
+
+        startServer();
     }
+
+    void GameStarter()
+    {
+        Debug.Log("Starting Game");
+        byte[] data = new byte[1024];
+        string welcome = "StartGame";
+
+        data = Encoding.ASCII.GetBytes(welcome);
+        socket.SendTo(data, SocketFlags.None, Remote);
+    }
+
     public void startServer()
     {
         serverText = "Waiting for players...";
@@ -31,7 +55,7 @@ public class ServerUDP : MonoBehaviour
         //So as with TCP, we create a socket and bind it to the 9050 port. 
 
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 9050);
+        ipep = new IPEndPoint(IPAddress.Any, 9050);
         socket.Bind(ipep);
 
         //TO DO 3
@@ -45,10 +69,17 @@ public class ServerUDP : MonoBehaviour
     {
         UItext.text = serverText;
 
+        if(playGameThreadRunning)
+        {
+            //...
+            playGame.Start();
+            playGameThreadRunning = false;
+        }
+
     }
 
 
-    void Receive()
+    public void Receive()
     {
         int recv;
         byte[] data = new byte[1024];
@@ -58,8 +89,8 @@ public class ServerUDP : MonoBehaviour
         //TO DO 3
         //We don't know who may be comunicating with this server, so we have to create an
         //endpoint with any address and an IpEndpoint from it to reply to it later.
-        IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint Remote = (EndPoint)(sender);
+        //IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+        Remote = (EndPoint)(ipep);
 
 
         //Loop the whole process, and start receiveing messages directed to our socket
@@ -70,19 +101,19 @@ public class ServerUDP : MonoBehaviour
         while (true)
         {
             recv = socket.ReceiveFrom(data, ref Remote);
-            serverText = "Message received from :" + Remote.ToString();
+            //serverText = "Message received from :" + Remote.ToString();
             serverText = Encoding.ASCII.GetString(data, 0, recv);
 
             //TO DO 4
             //When our UDP server receives a message from a random remote, it has to send a ping,
             //Call a send thread
-            Thread answer = new Thread(() => Send(Remote));
+            Thread answer = new Thread(() => SendPing(Remote));
             answer.Start();
         }
 
     }
 
-    void Send(EndPoint Remote)
+    public void SendPing(EndPoint Remote)
     {
         //TO DO 4
         //Use socket.SendTo to send a ping using the remote we stored earlier.

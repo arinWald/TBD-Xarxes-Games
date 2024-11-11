@@ -7,15 +7,24 @@ using TMPro;
 
 public class ClientUDP : MonoBehaviour
 {
-    Socket socket;
+    [HideInInspector]
+    public Socket socket;
+    [HideInInspector]
+    public IPEndPoint ipep;
+    [HideInInspector]
+    public EndPoint Remote;
+
     public GameObject UItextObj;          // Per mostrar missatges
     public TMP_InputField IPInputField;   // Camp de text per introduir IP
     TextMeshProUGUI UItext;
     string clientText;
     string serverIP = "192.168.1.53";        // IP per defecte
 
+    SceneChanger sceneChangerScript;
+
     void Start()
     {
+        DontDestroyOnLoad(this);
         UItext = UItextObj.GetComponent<TextMeshProUGUI>();
     }
 
@@ -41,7 +50,7 @@ public class ClientUDP : MonoBehaviour
     void Send()
     {
         // Establim la comunicació amb l'endpoint del servidor
-        IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
+        ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
         // Enviem un "Hello World UDP" per establir la connexió amb el servidor
@@ -55,8 +64,7 @@ public class ClientUDP : MonoBehaviour
 
     void Receive()
     {
-        IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint Remote = (EndPoint)(sender);
+        Remote = (EndPoint)(ipep);
 
         byte[] data = new byte[1024];
         int recv = socket.ReceiveFrom(data, ref Remote);
@@ -65,10 +73,16 @@ public class ClientUDP : MonoBehaviour
         clientText = "Message received from {0}: " + Remote.ToString();
         string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
 
+        Debug.Log("MSG: " + receivedMessage);
+
         // Si el missatge rebut és el "Ping UDP", mostrem "Ping Received" a la consola
         if (receivedMessage == "Ping UDP")
         {
             clientText = "Successfully connected to server";
+        }
+        else if(receivedMessage == "StartGame")
+        {
+            sceneChangerScript.GoToClientGame();
         }
     }
 }

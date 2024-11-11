@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // Start is called before the first frame update
-    enum INPUTS
-    {
-        UNKNOWN = -1,
-        HORIZONTAL,
-        VERTICAL,
-        SPACE,
-        SHIFT
-    }
+    //enum INPUTS
+    //{
+    //    UNKNOWN = -1,
+    //    HORIZONTAL,
+    //    VERTICAL,
+    //    SPACE,
+    //    SHIFT
+    //}
 
     float horizontalInput = 0f;
     float verticalInput = 0f;
@@ -82,8 +82,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInput()
     {
+        // 4 bytes
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+        // 1 bytes
         spaceInput = Input.GetKey(KeyCode.Space);
         spaceInputUp = Input.GetKeyUp(KeyCode.Space);
         shiftInput = Input.GetKeyDown(KeyCode.LeftShift);

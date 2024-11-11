@@ -1217,6 +1217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c27f17465558e946aad0ef18320742a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverUDPscript: {fileID: 0}
+  clientUDPScript: {fileID: 1292268900}
 --- !u!4 &1369487463
 Transform:
   m_ObjectHideFlags: 0

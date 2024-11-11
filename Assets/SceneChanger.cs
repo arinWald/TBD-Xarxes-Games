@@ -1,14 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Threading;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    public ServerUDP serverUDPscript;
+    public ClientUDP clientUDPScript;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -32,5 +36,16 @@ public class SceneChanger : MonoBehaviour
         SceneManager.LoadScene("Lobby");
     }
 
+    public void GoToServerGame()
+    {
+        serverUDPscript.playGameThreadRunning = true;
+        Debug.Log("Ping sent to client to enter game");
+        SceneManager.LoadScene("Server");
+    }
+
+    public void GoToClientGame()
+    {
+        SceneManager.LoadScene("Client");
+    }
 
 }
