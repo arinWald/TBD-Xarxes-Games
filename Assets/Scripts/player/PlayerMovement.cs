@@ -20,8 +20,6 @@ public class PlayerMovement : MonoBehaviour
     bool spaceInputUp = false;
     bool shiftInput = false;
 
-    GameObject player;
-
     [Header("Movement")]
     public float movementSpeed;
 
@@ -30,29 +28,39 @@ public class PlayerMovement : MonoBehaviour
     public float kickStrenght;
     public float kickMaxTime;
 
+    private Rigidbody ballRb;
     private float kickTime;
     private bool ballPossesion = true;
     void Start()
     {
-        
+        ballRb = ball.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        GetInput();
+
         //Kick ball
         if (ballPossesion)
         {
-            if (spaceInput && kickTime < kickMaxTime)
+            if (spaceInput)
             {
-                kickTime++;
+
+                Debug.Log("Space: " + kickTime);
+
+                if (kickTime < kickMaxTime) kickTime++;
             }
             else if (spaceInputUp)
             {
+                Debug.Log("SpaceUp: " + kickTime);
                 float normTime = kickTime / kickMaxTime;
                 float strenght = normTime * kickStrenght;
 
-                ball.GetComponent<Rigidbody>().AddForce(new Vector3(player.transform.localEulerAngles.x * kickStrenght, 0f, player.transform.localEulerAngles.z * kickStrenght));
+                //ball.GetComponent<Rigidbody>().AddForce(new Vector3(player.transform.localEulerAngles.x * kickStrenght, 0f, player.transform.localEulerAngles.z * kickStrenght));
+                ballRb.AddForce(gameObject.transform.forward * strenght);
+                Debug.Log("kick: " + gameObject.transform.forward * strenght);
             }
             else
             {
@@ -61,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Move Player
-        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f);
+        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput);
 
         if (movement.magnitude > 1)
         {
@@ -74,10 +82,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInput()
     {
-        horizontalInput = Input.GetAxisRaw("horizontal");
-        verticalInput = Input.GetAxisRaw("vertical");
-        spaceInput = Input.GetKeyDown(KeyCode.Space);
-        spaceInputUp = Input.GetKeyDown(KeyCode.Space);
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        spaceInput = Input.GetKey(KeyCode.Space);
+        spaceInputUp = Input.GetKeyUp(KeyCode.Space);
         shiftInput = Input.GetKeyDown(KeyCode.LeftShift);
     }
 }
