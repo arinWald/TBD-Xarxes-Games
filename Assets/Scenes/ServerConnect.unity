@@ -513,7 +513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UItextObj: {fileID: 554086571}
   serverText: 
-  playGameThreadRunning: 0
+  sceneChangerScript: {fileID: 930889639}
 --- !u!4 &562745204
 Transform:
   m_ObjectHideFlags: 0
@@ -1153,9 +1153,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 930889639}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: GoToServerGame
+      - m_Target: {fileID: 562745203}
+        m_TargetAssemblyTypeName: ServerUDP, Assembly-CSharp
+        m_MethodName: GameStarter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

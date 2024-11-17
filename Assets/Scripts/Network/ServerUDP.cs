@@ -19,6 +19,7 @@ public class ServerUDP : MonoBehaviour
     [HideInInspector]
     public EndPoint Remote;
 
+    SceneChanger sceneChangerScript;
 
     void Start()
     {
@@ -82,7 +83,7 @@ public class ServerUDP : MonoBehaviour
 
     }
 
-    void GameStarter()
+    public void GameStarter()
     {
         Debug.Log("Starting Game");
         byte[] data = new byte[1024];
@@ -90,6 +91,8 @@ public class ServerUDP : MonoBehaviour
 
         data = Encoding.ASCII.GetBytes(welcome);
         socket.SendTo(data, SocketFlags.None, Remote);
+
+        sceneChangerScript.GoToServerGame();
     }
 }
 

@@ -38,12 +38,12 @@ public class SceneChanger : MonoBehaviour
 
     public void GoToServerGame()
     {
-
         SceneManager.LoadScene("Server");
     }
 
     public void GoToClientGame()
     {
+
         SceneManager.LoadScene("Client");
     }
 

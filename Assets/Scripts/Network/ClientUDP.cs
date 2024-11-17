@@ -25,7 +25,7 @@ public class ClientUDP : MonoBehaviour
     [HideInInspector]
     bool gameStarted = false;
 
-    SceneChanger sceneChangerScript;
+    public SceneChanger sceneChangerScript;
 
     void Start()
     {
@@ -42,19 +42,6 @@ public class ClientUDP : MonoBehaviour
             // Recieve Data
             Debug.Log("Game Started");
             // Send Data
-        }
-        else if (connectionSuccess)
-        {
-            byte[] data = new byte[1024];
-            int recv = socket.ReceiveFrom(data, ref Remote);
-
-            string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
-
-            if(receivedMessage == "StartGame")
-            {
-                gameStarted = true;
-                sceneChangerScript.GoToClientGame();
-            }
         }
     }
 
@@ -90,19 +77,31 @@ public class ClientUDP : MonoBehaviour
     {
         Remote = (EndPoint)(ipep);
 
-        byte[] data = new byte[1024];
-        int recv = socket.ReceiveFrom(data, ref Remote);
-
-        clientText = "Message received from {0}: " + Remote.ToString();
-        string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
-
-        Debug.Log("MSG: " + receivedMessage);
-
-        if (receivedMessage == "Ping UDP")
+        while (true)
         {
-            clientText = "Successfully connected to server";
+            byte[] data = new byte[1024];
+            int recv = socket.ReceiveFrom(data, ref Remote);
 
-            connectionSuccess = true;
+            clientText = "Message received from {0}: " + Remote.ToString();
+            string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
+
+            Debug.Log("MSG: " + receivedMessage);
+
+            if (receivedMessage == "Ping UDP")
+            {
+                clientText = "Successfully connected to server";
+
+                connectionSuccess = true;
+            }
+            else if (receivedMessage == "StartGame")
+            {
+                gameStarted = true;
+                Debug.Log("Changing scene");
+                sceneChangerScript.GoToClientGame();
+
+                break;
+            }
         }
+        Debug.Log("While ended");
     }
 }

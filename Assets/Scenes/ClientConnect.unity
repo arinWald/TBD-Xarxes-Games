@@ -1018,6 +1018,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UItextObj: {fileID: 582823915}
   IPInputField: {fileID: 562522488}
+  connectionSuccess: 0
+  sceneChangerScript: {fileID: 1369487462}
 --- !u!4 &1292268901
 Transform:
   m_ObjectHideFlags: 0
