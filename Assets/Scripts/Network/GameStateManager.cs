@@ -27,10 +27,6 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            byte[] data = Encoding.ASCII.GetBytes("Someone pressed SPACE!");
-            clientUDPScript.socket.SendTo(data, SocketFlags.None, clientUDPScript.ipep);
-        }
+
     }
 }
