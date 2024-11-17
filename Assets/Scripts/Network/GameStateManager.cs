@@ -11,6 +11,7 @@ public class GameStateManager : MonoBehaviour
     private float send_verticalInput = 0f;
     private bool send_spaceInput = false;
     private bool send_spaceInputUp = false;
+    public bool send_spaceInputDown = false;
     private bool send_shiftInput = false;
 
     [HideInInspector]
@@ -18,14 +19,35 @@ public class GameStateManager : MonoBehaviour
     [HideInInspector]
     public ServerUDP serverUDPScript;
 
-    private GameObject player;
+    public PlayerMovement localPlayer;
+    public PlayerMovement remotePlayer;
+
 
     private void Start()
     {
-        player = this.gameObject;
-}
+
+    }
 
     private void Update()
+    {
+
+    }
+
+    // Assign the received controls
+    void SetPlayerControls()
+    {
+        remotePlayer.horizontalInput = send_horizontalInput;
+        remotePlayer.verticalInput = send_verticalInput;
+    }
+
+    // Send current controls
+    void SendPlayerControls()
+    {
+        
+    }
+
+    // Listen for controls
+    void ReceivePlayerControls()
     {
 
     }
