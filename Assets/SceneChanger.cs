@@ -38,8 +38,7 @@ public class SceneChanger : MonoBehaviour
 
     public void GoToServerGame()
     {
-        serverUDPscript.playGameThreadRunning = true;
-        Debug.Log("Ping sent to client to enter game");
+
         SceneManager.LoadScene("Server");
     }
 

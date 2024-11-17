@@ -14,11 +14,16 @@ public class ClientUDP : MonoBehaviour
     [HideInInspector]
     public EndPoint Remote;
 
-    public GameObject UItextObj;          // Per mostrar missatges
-    public TMP_InputField IPInputField;   // Camp de text per introduir IP
+    public GameObject UItextObj;
+    public TMP_InputField IPInputField;
     TextMeshProUGUI UItext;
     string clientText;
-    string serverIP = "192.168.1.53";        // IP per defecte
+    string serverIP = "192.168.1.53";
+
+    [HideInInspector]
+    public bool connectionSuccess = false;
+    [HideInInspector]
+    bool gameStarted = false;
 
     SceneChanger sceneChangerScript;
 
@@ -31,33 +36,52 @@ public class ClientUDP : MonoBehaviour
     void Update()
     {
         UItext.text = clientText;
+
+        if (connectionSuccess && gameStarted)
+        {
+            // Recieve Data
+            Debug.Log("Game Started");
+            // Send Data
+        }
+        else if (connectionSuccess)
+        {
+            byte[] data = new byte[1024];
+            int recv = socket.ReceiveFrom(data, ref Remote);
+
+            string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
+
+            if(receivedMessage == "StartGame")
+            {
+                gameStarted = true;
+                sceneChangerScript.GoToClientGame();
+            }
+        }
     }
 
-    // Funció cridada pel botó "Connect To Server"
+
     public void StartClient()
     {
-        // Obtenim la IP del InputField si ha estat introduïda
+       
         if (!string.IsNullOrEmpty(IPInputField.text))
         {
-            serverIP = IPInputField.text;  // Agafem la IP del camp de text
+            serverIP = IPInputField.text;
         }
 
-        // Iniciem el procés de connexió en un nou fil
-        Thread mainThread = new Thread(Send);
-        mainThread.Start();
+        Thread connectionStablisher = new Thread(Send);
+        connectionStablisher.Start();
     }
 
     void Send()
     {
-        // Establim la comunicació amb l'endpoint del servidor
         ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-        // Enviem un "Hello World UDP" per establir la connexió amb el servidor
-        byte[] data = Encoding.ASCII.GetBytes("Player 1 Joined with IP: " + serverIP);
+        //byte[] data = Encoding.ASCII.GetBytes("Player 1 Joined with IP: " + GetLocalIPAddress());
+        //socket.SendTo(data, SocketFlags.None, ipep);
+
+        byte[] data = Encoding.ASCII.GetBytes("Connected");
         socket.SendTo(data, SocketFlags.None, ipep);
 
-        // Comencem a rebre la resposta del servidor
         Thread receive = new Thread(Receive);
         receive.Start();
     }
@@ -69,20 +93,16 @@ public class ClientUDP : MonoBehaviour
         byte[] data = new byte[1024];
         int recv = socket.ReceiveFrom(data, ref Remote);
 
-        // Mostrem "Ping Received" quan rebem la resposta del servidor
         clientText = "Message received from {0}: " + Remote.ToString();
         string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
 
         Debug.Log("MSG: " + receivedMessage);
 
-        // Si el missatge rebut és el "Ping UDP", mostrem "Ping Received" a la consola
         if (receivedMessage == "Ping UDP")
         {
             clientText = "Successfully connected to server";
-        }
-        else if(receivedMessage == "StartGame")
-        {
-            sceneChangerScript.GoToClientGame();
+
+            connectionSuccess = true;
         }
     }
 }

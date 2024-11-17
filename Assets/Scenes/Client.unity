@@ -1203,6 +1203,10 @@ PrefabInstance:
       propertyPath: ball
       value: 
       objectReference: {fileID: 1418262607}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: kickMaxTime
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

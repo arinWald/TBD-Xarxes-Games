@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
                 Debug.Log("Space: " + kickTime);
 
-                if (kickTime < kickMaxTime) kickTime++;
+                if (kickTime < kickMaxTime) kickTime += Time.deltaTime;
             }
             else if (spaceInputUp)
             {
