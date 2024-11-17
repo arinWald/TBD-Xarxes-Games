@@ -19,7 +19,7 @@ public class ServerUDP : MonoBehaviour
     [HideInInspector]
     public EndPoint Remote;
 
-    SceneChanger sceneChangerScript;
+    public SceneChanger sceneChangerScript;
 
     void Start()
     {

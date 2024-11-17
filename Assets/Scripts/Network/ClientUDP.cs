@@ -22,8 +22,9 @@ public class ClientUDP : MonoBehaviour
 
     [HideInInspector]
     public bool connectionSuccess = false;
-    [HideInInspector]
+    
     bool gameStarted = false;
+    bool goToClientGame = false;
 
     public SceneChanger sceneChangerScript;
 
@@ -39,6 +40,13 @@ public class ClientUDP : MonoBehaviour
 
         if (connectionSuccess && gameStarted)
         {
+            // Change scene could not be done inside a thread
+            if(goToClientGame)
+            {
+                sceneChangerScript.GoToClientGame();
+                goToClientGame = false;
+            }
+
             // Recieve Data
             Debug.Log("Game Started");
             // Send Data
@@ -97,7 +105,9 @@ public class ClientUDP : MonoBehaviour
             {
                 gameStarted = true;
                 Debug.Log("Changing scene");
-                sceneChangerScript.GoToClientGame();
+
+                // bool to call change scene outisde thread (look Update)
+                goToClientGame = true;
 
                 break;
             }
