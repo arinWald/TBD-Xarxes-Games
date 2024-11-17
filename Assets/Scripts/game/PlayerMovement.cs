@@ -14,12 +14,12 @@ public class PlayerMovement : MonoBehaviour
     //    SHIFT
     //}
 
-    float horizontalInput = 0f;
-    float verticalInput = 0f;
-    bool spaceInput = false;
-    bool spaceInputUp = false;
-    bool spaceInputDown = false;
-    bool shiftInput = false;
+    public float horizontalInput = 0f;
+    public float verticalInput = 0f;
+    public bool spaceInput = false;
+    public bool spaceInputUp = false;
+    public bool spaceInputDown = false;
+    public bool shiftInput = false;
 
     [Header("Movement")]
     public float movementSpeed;
