@@ -9,15 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Client.unity
-    guid: d67803b6845fa624aa29b3509d882844
+    path: Assets/Scenes/ServerConnect.unity
+    guid: 5fe9be60bc5a12a499677872fb85e03b
+  - enabled: 1
+    path: Assets/Scenes/Server.unity
+    guid: 9269ef637e8749648b2a69f629f69c33
   - enabled: 1
     path: Assets/Scenes/ClientConnect.unity
     guid: 174609f23bf1a6a42bf42120d95e41c9
   - enabled: 1
-    path: Assets/Scenes/Server.unity
-    guid: 77a47354dba510545b95c259783513d8
-  - enabled: 1
-    path: Assets/Scenes/ServerConnect.unity
-    guid: 5fe9be60bc5a12a499677872fb85e03b
+    path: Assets/Scenes/Client.unity
+    guid: cb0ea7c8f06da8c44abc078be82249f1
   m_configObjects: {}
