@@ -25,7 +25,6 @@ public class Ball : MonoBehaviour
         clientControls = clientPlayer.GetComponent<PlayerMovement>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (playerInPossesion != null)
@@ -74,7 +73,6 @@ public class Ball : MonoBehaviour
     {
         if (other.tag == "client" && other.name == "SnatchHitbox" && clientControls.snatch)
         {
-            //Debug.Log("YEP");
             playerInPossesion = clientPlayer;
             clientControls.ballPossesion = true;
         }

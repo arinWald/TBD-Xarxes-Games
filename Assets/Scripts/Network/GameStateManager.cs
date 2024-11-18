@@ -128,7 +128,7 @@ public class GameStateManager : MonoBehaviour
             {
                 // Allocate a buffer to receive data
                 byte[] data = new byte[1024];
-                int recv = clientUDPScript.socket.ReceiveFrom(data, ref clientUDPScript.Remote); // Receive data from the remote endpoint
+                int recv = clientUDPScript.socket.ReceiveFrom(data, ref clientUDPScript.Remote);
 
                 // Trim the byte array to match the received data length
                 byte[] trimmedData = new byte[recv];
@@ -142,25 +142,13 @@ public class GameStateManager : MonoBehaviour
         {
             while (true)
             {
-                // Allocate a buffer to receive data
                 byte[] data = new byte[1024];
                 int recv = serverUDPScript.socket.ReceiveFrom(data, ref serverUDPScript.Remote); // Receive data from the remote endpoint
 
-                // Trim the byte array to match the received data length
                 byte[] trimmedData = new byte[recv];
                 Array.Copy(data, trimmedData, recv);
 
-                // Deserialize the received data into a struct
                 incomingData = BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
-
-                //Debug.Log($"Received Data: \n" +
-                //          $"Horizontal Input: {incomingData.send_horizontalInput}, " +
-                //          $"Vertical Input: {incomingData.send_verticalInput}, " +
-                //          $"Space Input: {incomingData.send_spaceInput}, " +
-                //          $"Space Input Up: {incomingData.send_spaceInputUp}, " +
-                //          $"Space Input Down: {incomingData.send_spaceInputDown}, " +
-                //          $"Shift Input: {incomingData.send_shiftInput}, " +
-                //          $"Rotation Angle: {incomingData.send_rotationAngle}");
             }
         }
     }

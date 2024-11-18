@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    //enum INPUTS
-    //{
-    //    UNKNOWN = -1,
-    //    HORIZONTAL,
-    //    VERTICAL,
-    //    SPACE,
-    //    SHIFT
-    //}
-
     public float horizontalInput = 0f;
     public float verticalInput = 0f;
     public bool spaceInput = false;
@@ -56,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
         ballPossesion = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -70,8 +59,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (spaceInput)
             {
-
-                //Debug.Log("Space: " + kickTime);
 
                 if (kickTime < kickMaxTime) kickTime += Time.deltaTime;
             }
@@ -130,17 +117,16 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInput()
     {
-        // player rotation
         Vector3 mouse_pos = Input.mousePosition;
         Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
         mouse_pos.x = mouse_pos.x - object_pos.x;
         mouse_pos.y = mouse_pos.y - object_pos.y;
+        
         rotationAngle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
 
-        // 4 bytes
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        // 1 bytes
+        
         spaceInput = Input.GetKey(KeyCode.Space);
         spaceInputUp = Input.GetKeyUp(KeyCode.Space);
         spaceInputDown = Input.GetKeyDown(KeyCode.Space);

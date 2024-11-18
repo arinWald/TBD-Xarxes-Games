@@ -47,11 +47,6 @@ public class ClientUDP : MonoBehaviour
                 sceneChangerScript.GoToClientGame();
                 goToClientGame = false;
             }
-
-            // Recieve Data
-            //Debug.Log("Game Started");
-
-            // Send Data
         }
     }
 
@@ -73,8 +68,6 @@ public class ClientUDP : MonoBehaviour
         ipep = new IPEndPoint(IPAddress.Parse(serverIP), 9050);
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-        //byte[] data = Encoding.ASCII.GetBytes("Player 1 Joined with IP: " + GetLocalIPAddress());
-        //socket.SendTo(data, SocketFlags.None, ipep);
 
         byte[] data = Encoding.ASCII.GetBytes("Connected");
         socket.SendTo(data, SocketFlags.None, ipep);
@@ -95,7 +88,6 @@ public class ClientUDP : MonoBehaviour
             clientText = "Message received from {0}: " + Remote.ToString();
             string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
 
-            //Debug.Log("MSG: " + receivedMessage);
 
             if (receivedMessage == "Ping UDP")
             {
