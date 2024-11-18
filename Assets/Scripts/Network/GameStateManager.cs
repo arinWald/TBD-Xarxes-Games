@@ -61,16 +61,17 @@ public class GameStateManager : MonoBehaviour
             clientUDPScript = GameObject.Find("ScriptContainer").GetComponent<ClientUDP>();
         }
 
+        Thread inGameReceive = new Thread(ReceivePlayerControls);
+        inGameReceive.Start();
+
+        Thread inGameSend = new Thread(SendPlayerControls);
+        inGameSend.Start();
 
     }
 
     private void Update()
     {
         SetPlayerControls();
-
-        Thread sendPlayerControlsThread = new Thread(SendPlayerControls);
-        sendPlayerControlsThread.Start();
-
     }
 
     // Assign the received controls
@@ -83,12 +84,15 @@ public class GameStateManager : MonoBehaviour
         remotePlayer.spaceInputDown = incomingData.send_spaceInputDown;
         remotePlayer.shiftInput = incomingData.send_shiftInput;
         remotePlayer.rotationAngle = incomingData.send_rotationAngle;
+
     }
 
     // Send current controls
     void SendPlayerControls()
     {
-        PlayerInputData data = new PlayerInputData(
+        while(true)
+        {
+            PlayerInputData data = new PlayerInputData(
             localPlayer.horizontalInput,
             localPlayer.verticalInput,
             localPlayer.spaceInput,
@@ -98,17 +102,19 @@ public class GameStateManager : MonoBehaviour
             localPlayer.rotationAngle
             );
 
-        byte[] buffer = StructToBytes(data);
+            byte[] buffer = StructToBytes(data);
 
 
-        if (IAmClient && clientUDPScript != null)
-        {
-
-        }
-        else if(serverUDPScript != null)
-        {
-            Debug.Log("Controls sending to client");
-            serverUDPScript.socket.SendTo(buffer, SocketFlags.None, serverUDPScript.Remote);
+            if (IAmClient && clientUDPScript != null)
+            {
+                Debug.Log("Controls sending to client");
+                clientUDPScript.socket.SendTo(buffer, SocketFlags.None, clientUDPScript.Remote);
+            }
+            else if (serverUDPScript != null)
+            {
+                Debug.Log("Controls sending to client");
+                serverUDPScript.socket.SendTo(buffer, SocketFlags.None, serverUDPScript.Remote);
+            }
         }
         
     }
@@ -116,7 +122,54 @@ public class GameStateManager : MonoBehaviour
     // Listen for controls
     void ReceivePlayerControls()
     {
+        if (IAmClient && clientUDPScript != null)
+        {
+            while (true)
+            {
+                // Allocate a buffer to receive data
+                byte[] data = new byte[1024];
+                int recv = clientUDPScript.socket.ReceiveFrom(data, ref clientUDPScript.Remote); // Receive data from the remote endpoint
 
+                // Trim the byte array to match the received data length
+                byte[] trimmedData = new byte[recv];
+                Array.Copy(data, trimmedData, recv);
+
+                // Deserialize the received data into a struct
+                incomingData = GameStateManager.BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
+
+                // Log the received data
+                Debug.Log($"CLIENT Received Data: \n" +
+                          $"Horizontal Input: {incomingData.send_horizontalInput}");
+            }
+        }
+        else if (serverUDPScript != null)
+        {
+            while (true)
+            {
+                // Allocate a buffer to receive data
+                byte[] data = new byte[1024];
+                int recv = serverUDPScript.socket.ReceiveFrom(data, ref serverUDPScript.Remote); // Receive data from the remote endpoint
+
+                // Trim the byte array to match the received data length
+                byte[] trimmedData = new byte[recv];
+                Array.Copy(data, trimmedData, recv);
+
+                // Deserialize the received data into a struct
+                incomingData = BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
+
+                // Log the received data
+                Debug.Log($"SERVER Received Data: \n" +
+                          $"Horizontal Input: {incomingData.send_horizontalInput}");
+                //Debug.Log($"Received Data: \n" +
+                //          $"Horizontal Input: {incomingData.send_horizontalInput}, " +
+                //          $"Vertical Input: {incomingData.send_verticalInput}, " +
+                //          $"Space Input: {incomingData.send_spaceInput}, " +
+                //          $"Space Input Up: {incomingData.send_spaceInputUp}, " +
+                //          $"Space Input Down: {incomingData.send_spaceInputDown}, " +
+                //          $"Shift Input: {incomingData.send_shiftInput}, " +
+                //          $"Rotation Angle: {incomingData.send_rotationAngle}");
+            }
+        }
     }
 
     public static byte[] StructToBytes<T>(T data) where T : struct

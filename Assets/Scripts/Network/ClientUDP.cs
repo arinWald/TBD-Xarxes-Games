@@ -46,9 +46,6 @@ public class ClientUDP : MonoBehaviour
             {
                 sceneChangerScript.GoToClientGame();
                 goToClientGame = false;
-
-                Thread inGameReceive = new Thread(InGameReceive);
-                inGameReceive.Start();
             }
 
             // Recieve Data
@@ -118,32 +115,4 @@ public class ClientUDP : MonoBehaviour
             }
         }
     }
-
-    void InGameReceive()
-    {
-        while (true)
-        {
-            // Allocate a buffer to receive data
-            byte[] data = new byte[1024];
-            int recv = socket.ReceiveFrom(data, ref Remote); // Receive data from the remote endpoint
-
-            // Trim the byte array to match the received data length
-            byte[] trimmedData = new byte[recv];
-            Array.Copy(data, trimmedData, recv);
-
-            // Deserialize the received data into a struct
-            GameStateManager.PlayerInputData receivedMessage = GameStateManager.BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
-
-            // Log the received data
-            Debug.Log($"Received Data: \n" +
-                      $"Horizontal Input: {receivedMessage.send_horizontalInput}, " +
-                      $"Vertical Input: {receivedMessage.send_verticalInput}, " +
-                      $"Space Input: {receivedMessage.send_spaceInput}, " +
-                      $"Space Input Up: {receivedMessage.send_spaceInputUp}, " +
-                      $"Space Input Down: {receivedMessage.send_spaceInputDown}, " +
-                      $"Shift Input: {receivedMessage.send_shiftInput}, " +
-                      $"Rotation Angle: {receivedMessage.send_rotationAngle}");
-        }
-    }
-
 }
