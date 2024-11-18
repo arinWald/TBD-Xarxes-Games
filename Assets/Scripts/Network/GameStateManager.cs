@@ -136,10 +136,6 @@ public class GameStateManager : MonoBehaviour
 
                 // Deserialize the received data into a struct
                 incomingData = GameStateManager.BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
-
-                // Log the received data
-                Debug.Log($"CLIENT Received Data: \n" +
-                          $"Horizontal Input: {incomingData.send_horizontalInput}");
             }
         }
         else if (serverUDPScript != null)
@@ -157,9 +153,6 @@ public class GameStateManager : MonoBehaviour
                 // Deserialize the received data into a struct
                 incomingData = BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
 
-                // Log the received data
-                Debug.Log($"SERVER Received Data: \n" +
-                          $"Horizontal Input: {incomingData.send_horizontalInput}");
                 //Debug.Log($"Received Data: \n" +
                 //          $"Horizontal Input: {incomingData.send_horizontalInput}, " +
                 //          $"Vertical Input: {incomingData.send_verticalInput}, " +
