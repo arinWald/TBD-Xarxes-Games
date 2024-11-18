@@ -1,0 +1,33 @@
+------ RELEASE -----
+GitHub Link: https://github.com/arinWald/TBD-Xarxes-Games
+GitHub Release Link: https://github.com/arinWald/TBD-Xarxes-Games/releases/tag/ReleaseEx3
+
+------ CONTROLS -----
+WASD -> Movement
+SPACE -> Charge ball throw (up to 1.5sec)
+SPACE RELEASE -> Throw ball
+Ball is picked automatically if it is not being grab by any player
+
+------ BUGS -----
+- Ball Desync: At certain moments in the game, we believe that depending on the inputs, the ball becomes desynchronized, but we think it's because we haven't yet implemented the checks for sending and receiving the packets.
+
+----- OTHER CONSIDERATIONS -----
+Main scene to run is Lobby, where each player can choose between creating a server or join one
+
+----- TASKS ------
+1. Design gameflow:
+Arnau, Pau
+2. Establish UDP connection:
+Biel, Pau
+3. Create initial lobby:
+Arnau, Biel
+4. Create and control the 2 players:
+Arnau, Pau
+5. Create and control the ball:
+Biel, Pau
+6. Create and control the shot:
+Arnau, Biel
+7. Serialization and deserialization of data:
+Biel, Pau
+8. Transmission between server and client:
+Arnau, Biel
