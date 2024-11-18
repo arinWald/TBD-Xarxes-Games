@@ -1089,8 +1089,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1418262607}
     - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: IAmRemote
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8245960543944855344, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_TagString
@@ -1107,7 +1111,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1659646163}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416190411}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd9daaae548b48f4f82c1a77c33d5a70, type: 3}
   m_Name: 

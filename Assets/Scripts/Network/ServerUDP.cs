@@ -7,7 +7,8 @@ using TMPro;
 
 public class ServerUDP : MonoBehaviour
 {
-    Socket socket;
+    [HideInInspector]
+    public Socket socket;
 
     public GameObject UItextObj;
     TextMeshProUGUI UItext;

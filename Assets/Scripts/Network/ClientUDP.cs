@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using System.Threading;
 using TMPro;
+using System;
 
 public class ClientUDP : MonoBehaviour
 {
@@ -45,10 +46,14 @@ public class ClientUDP : MonoBehaviour
             {
                 sceneChangerScript.GoToClientGame();
                 goToClientGame = false;
+
+                Thread inGameReceive = new Thread(InGameReceive);
+                inGameReceive.Start();
             }
 
             // Recieve Data
-            Debug.Log("Game Started");
+            //Debug.Log("Game Started");
+
             // Send Data
         }
     }
@@ -93,7 +98,7 @@ public class ClientUDP : MonoBehaviour
             clientText = "Message received from {0}: " + Remote.ToString();
             string receivedMessage = Encoding.ASCII.GetString(data, 0, recv);
 
-            Debug.Log("MSG: " + receivedMessage);
+            //Debug.Log("MSG: " + receivedMessage);
 
             if (receivedMessage == "Ping UDP")
             {
@@ -112,6 +117,33 @@ public class ClientUDP : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("While ended");
     }
+
+    void InGameReceive()
+    {
+        while (true)
+        {
+            // Allocate a buffer to receive data
+            byte[] data = new byte[1024];
+            int recv = socket.ReceiveFrom(data, ref Remote); // Receive data from the remote endpoint
+
+            // Trim the byte array to match the received data length
+            byte[] trimmedData = new byte[recv];
+            Array.Copy(data, trimmedData, recv);
+
+            // Deserialize the received data into a struct
+            GameStateManager.PlayerInputData receivedMessage = GameStateManager.BytesToStruct<GameStateManager.PlayerInputData>(trimmedData);
+
+            // Log the received data
+            Debug.Log($"Received Data: \n" +
+                      $"Horizontal Input: {receivedMessage.send_horizontalInput}, " +
+                      $"Vertical Input: {receivedMessage.send_verticalInput}, " +
+                      $"Space Input: {receivedMessage.send_spaceInput}, " +
+                      $"Space Input Up: {receivedMessage.send_spaceInputUp}, " +
+                      $"Space Input Down: {receivedMessage.send_spaceInputDown}, " +
+                      $"Shift Input: {receivedMessage.send_shiftInput}, " +
+                      $"Rotation Angle: {receivedMessage.send_rotationAngle}");
+        }
+    }
+
 }

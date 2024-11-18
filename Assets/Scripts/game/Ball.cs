@@ -64,7 +64,7 @@ public class Ball : MonoBehaviour
     {
         if (other.tag == "client" && other.name == "SnatchHitbox" && clientControls.snatch)
         {
-            Debug.Log("YEP");
+            //Debug.Log("YEP");
             playerInPossesion = clientPlayer;
             clientControls.ballPossesion = true;
         }

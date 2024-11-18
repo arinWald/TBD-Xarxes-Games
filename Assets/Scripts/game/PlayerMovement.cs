@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public bool spaceInputUp = false;
     public bool spaceInputDown = false;
     public bool shiftInput = false;
+    public float rotationAngle = 0f;
 
     [Header("Movement")]
     public float movementSpeed;
@@ -43,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool snatch = false;
 
+    public bool IAmRemote;
+
     void Start()
     {
         ballRb = ball.GetComponent<Rigidbody>();
@@ -57,7 +60,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        GetInput();
+        if(!IAmRemote)
+        {
+            GetInput();
+        }
 
         //Kick ball
         if (ballPossesion)
@@ -65,13 +71,13 @@ public class PlayerMovement : MonoBehaviour
             if (spaceInput)
             {
 
-                Debug.Log("Space: " + kickTime);
+                //Debug.Log("Space: " + kickTime);
 
                 if (kickTime < kickMaxTime) kickTime += Time.deltaTime;
             }
             else if (spaceInputUp)
             {
-                Debug.Log("SpaceUp: " + kickTime);
+                //Debug.Log("SpaceUp: " + kickTime);
                 float normTime = kickTime / kickMaxTime;
                 float strenght = normTime * kickStrenght;
 
@@ -98,12 +104,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Player Orientation
 
-        Vector3 mouse_pos = Input.mousePosition;
-        Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
-        mouse_pos.x = mouse_pos.x - object_pos.x;
-        mouse_pos.y = mouse_pos.y - object_pos.y;
-        float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, -angle + 90, 0));
+        transform.rotation = Quaternion.Euler(new Vector3(0, -rotationAngle + 90, 0));
 
         //Snatch Ball
 
@@ -129,6 +130,13 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInput()
     {
+        // player rotation
+        Vector3 mouse_pos = Input.mousePosition;
+        Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
+        mouse_pos.x = mouse_pos.x - object_pos.x;
+        mouse_pos.y = mouse_pos.y - object_pos.y;
+        rotationAngle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
+
         // 4 bytes
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
