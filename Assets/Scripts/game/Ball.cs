@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public GameManager manager;
+
     public GameObject serverPlayer;
     public GameObject clientPlayer;
 
@@ -13,7 +15,7 @@ public class Ball : MonoBehaviour
     private GameObject playerInPossesion;
 
     private Rigidbody ballRb;
-
+    
     void Start()
     {
         playerInPossesion = null;
@@ -58,6 +60,14 @@ public class Ball : MonoBehaviour
                 playerInPossesion = serverPlayer;
                 serverControls.ballPossesion = true;
             }
+        }
+        if (other.name == "Goal" && other.tag=="client")
+        {
+            manager.serverScore++;
+        }
+        if (other.name == "Goal" && other.tag == "server")
+        {
+            manager.clientScore++;
         }
     }
     private void OnTriggerStay(Collider other)
