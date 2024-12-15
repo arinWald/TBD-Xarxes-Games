@@ -38,17 +38,17 @@ public class Ball : MonoBehaviour
 
             if (playerInPossesion.name == "ClientPlayer")
             {
-                ballMat.SetColor("_EmissionColor", new Color(0,181,255, 255));
+                ballMat.SetColor("_EmissionColor", new Color(0,0.71f,1f, 1f) * 2.5f);
             }
             else if (playerInPossesion.name == "ServerPlayer")
             {
-                ballMat.SetColor("_EmissionColor", new Color(255, 168, 0, 255));
+                ballMat.SetColor("_EmissionColor", new Color(1f, 0.65f, 0, 1f) * 2.5f);
             }
         }
         else
         {
             gameObject.transform.parent = null;
-            ballMat.SetColor("_EmissionColor", Color.Lerp(ballMat.GetColor("_EmissionColor"), Color.white, 1 * Time.deltaTime));
+            ballMat.SetColor("_EmissionColor", Color.Lerp(ballMat.GetColor("_EmissionColor"), Color.white * 2.5f, 1 * Time.deltaTime));
         }
     }
 
