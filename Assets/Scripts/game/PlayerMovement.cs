@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         kickSlider.value = kickTime;
 
         kickSlider.transform.LookAt(sliderTarget.transform);
-        kickSlider.transform.position = new Vector3(kickSlider.transform.parent.transform.position.x, 0, kickSlider.transform.parent.transform.position.z + 2);
+        kickSlider.transform.position = new Vector3(kickSlider.transform.parent.transform.position.x, 0.2f, kickSlider.transform.parent.transform.position.z + 2);
         kickSlider.transform.rotation = sliderTarget.transform.rotation;
 
         bool hideSlider = spaceInput && ballPossesion ? true : false;
