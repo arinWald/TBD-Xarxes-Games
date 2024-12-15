@@ -7676,6 +7676,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ServerPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 5963025551024327388, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: ball
       value: 
@@ -8000,6 +8004,14 @@ PrefabInstance:
       propertyPath: ball
       value: 
       objectReference: {fileID: 1418262607}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: sliderTarget
+      value: 
+      objectReference: {fileID: 430031236}
+    - target: {fileID: 7227656930726454527, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

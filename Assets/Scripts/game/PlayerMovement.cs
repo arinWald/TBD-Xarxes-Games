@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     public float horizontalInput = 0f;
@@ -36,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IAmRemote;
 
+
+    public Slider kickSlider;
+    public GameObject sliderTarget;
+
     void Start()
     {
         ballRb = ball.GetComponent<Rigidbody>();
@@ -44,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
         ballSensor = transform.Find("BallSensor").gameObject;
 
         ballPossesion = false;
+
+        //Handle
+        kickSlider.minValue = 0;
+        kickSlider.maxValue = kickMaxTime;
     }
 
     void Update()
@@ -113,6 +121,20 @@ public class PlayerMovement : MonoBehaviour
                 snatchTime--;
             }
         }
+
+        //Update Slider
+
+        kickSlider.value = kickTime;
+
+        kickSlider.transform.LookAt(sliderTarget.transform);
+        kickSlider.transform.position = new Vector3(kickSlider.transform.parent.transform.position.x, 0, kickSlider.transform.parent.transform.position.z + 2);
+        kickSlider.transform.rotation = sliderTarget.transform.rotation;
+
+        bool hideSlider = spaceInput ? true : false;
+        kickSlider.transform.parent.gameObject.SetActive(hideSlider);
+
+
+
     }
 
     void GetInput()
