@@ -15,11 +15,14 @@ public class Ball : MonoBehaviour
     private GameObject playerInPossesion;
 
     private Rigidbody ballRb;
+
+    private Material ballMat;
     
     void Start()
     {
         playerInPossesion = null;
         ballRb = gameObject.GetComponent<Rigidbody>();
+        ballMat = gameObject.GetComponent<Renderer>().material;
 
         serverControls = serverPlayer.GetComponent<PlayerMovement>();
         clientControls = clientPlayer.GetComponent<PlayerMovement>();
@@ -32,10 +35,20 @@ public class Ball : MonoBehaviour
             gameObject.transform.parent = playerInPossesion.transform.Find("BallSocket");
             transform.localPosition = Vector3.zero;
             ballRb.velocity = Vector3.zero;
+
+            if (playerInPossesion.name == "ClientPlayer")
+            {
+                ballMat.SetColor("_EmissionColor", new Color(0,181,255, 255));
+            }
+            else if (playerInPossesion.name == "ServerPlayer")
+            {
+                ballMat.SetColor("_EmissionColor", new Color(255, 168, 0, 255));
+            }
         }
         else
         {
             gameObject.transform.parent = null;
+            ballMat.SetColor("_EmissionColor", Color.Lerp(ballMat.GetColor("_EmissionColor"), Color.white, 1 * Time.deltaTime));
         }
     }
 
