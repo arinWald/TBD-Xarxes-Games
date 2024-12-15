@@ -7696,6 +7696,10 @@ PrefabInstance:
       propertyPath: kickMaxTime
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: sliderTarget
+      value: 
+      objectReference: {fileID: 430031236}
     - target: {fileID: 6381911771612309820, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8028,6 +8032,10 @@ PrefabInstance:
       propertyPath: kickMaxTime
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: sliderTarget
+      value: 
+      objectReference: {fileID: 430031236}
     - target: {fileID: 7101677317875755619, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
