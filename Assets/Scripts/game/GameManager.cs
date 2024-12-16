@@ -18,6 +18,20 @@ public class GameManager : MonoBehaviour
     public GameObject winTextGameObject;
     TextMeshProUGUI winText;
 
+
+    public GameObject ServerGO;
+    public GameObject ClientGO;
+    public GameObject BallGO;
+
+    public Vector3 ServerResetPos;
+    public Vector3 ClientResetPos;
+
+    public Vector3 BallResetPos;
+
+    private float countdownTime;
+    public float countdownMaxTime;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,5 +56,18 @@ public class GameManager : MonoBehaviour
             winTextGameObject.SetActive(true);
             winText.text = "Left Player Wins!";
         }
+    }
+
+    public void GoalReset()
+    {
+            ResetPos();
+    }
+
+    private void ResetPos()
+    {
+        ServerGO.transform.position = ServerResetPos;
+        ClientGO.transform.position = ClientResetPos;
+        BallGO.transform.position = BallResetPos;
+        BallGO.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }
