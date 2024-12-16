@@ -17,15 +17,19 @@ public class Ball : MonoBehaviour
     private Rigidbody ballRb;
 
     private Material ballMat;
+    private TrailRenderer ballTrail;
     
     void Start()
     {
         playerInPossesion = null;
         ballRb = gameObject.GetComponent<Rigidbody>();
         ballMat = gameObject.GetComponent<Renderer>().material;
+        ballTrail = gameObject.GetComponent<TrailRenderer>();
 
         serverControls = serverPlayer.GetComponent<PlayerMovement>();
         clientControls = clientPlayer.GetComponent<PlayerMovement>();
+
+
     }
 
     void Update()
@@ -50,6 +54,9 @@ public class Ball : MonoBehaviour
             gameObject.transform.parent = null;
             ballMat.SetColor("_EmissionColor", Color.Lerp(ballMat.GetColor("_EmissionColor"), Color.white * 2.5f, 1 * Time.deltaTime));
         }
+
+        ballTrail.material.SetColor("_Color", Vector4.Normalize(ballMat.GetColor("_EmissionColor")));
+        ballTrail.material.SetColor("_EmissionColor", Vector4.Normalize(ballMat.GetColor("_EmissionColor")) * 2.5f);
     }
 
     public void ChangePossesion(GameObject player)
