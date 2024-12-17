@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 4068627833349929613}
   m_Layer: 0
   m_Name: BallSensor
-  m_TagString: client
+  m_TagString: server
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 6380687048637078922}
   - component: {fileID: 3352631204267129754}
   - component: {fileID: 6381911771612309820}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,9 +428,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &6380687048637078922
 MonoBehaviour:
@@ -461,6 +461,7 @@ MonoBehaviour:
   IAmRemote: 0
   kickSlider: {fileID: 7204745711504497189}
   sliderTarget: {fileID: 0}
+  playerRB: {fileID: 0}
 --- !u!136 &3352631204267129754
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -505,7 +506,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 339ae874b1655754b8901e776c62dd2b, type: 2}
+  - {fileID: 2100000, guid: d632af5b9d1617443a9d0dd2054bc89e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -826,10 +827,9 @@ GameObject:
   - component: {fileID: 8113374304371421437}
   - component: {fileID: 8322074604919317074}
   - component: {fileID: 9214191961866237211}
-  - component: {fileID: 2863439796816977029}
   m_Layer: 0
   m_Name: SnatchHitbox
-  m_TagString: client
+  m_TagString: server
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -899,27 +899,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2863439796816977029
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8245960543944855344}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9176760510661314137
 GameObject:
   m_ObjectHideFlags: 0

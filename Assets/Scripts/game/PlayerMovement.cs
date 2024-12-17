@@ -40,8 +40,13 @@ public class PlayerMovement : MonoBehaviour
     public Slider kickSlider;
     public GameObject sliderTarget;
 
+    public Rigidbody playerRB;
+
     void Start()
     {
+        playerRB = gameObject.GetComponent<Rigidbody>();
+
+
         ballRb = ball.GetComponent<Rigidbody>();
         ball_c = ball.GetComponent<Ball>();
 
@@ -94,7 +99,11 @@ public class PlayerMovement : MonoBehaviour
             movement.Normalize();
         }
 
-        transform.position += movement * movementSpeed * Time.deltaTime; ;
+        //transform.position += movement * movementSpeed * Time.deltaTime;
+
+        playerRB.velocity = movement * movementSpeed;
+        //Debug.Log(movement * movementSpeed);
+        Debug.Log(playerRB.velocity);
 
 
         //Player Orientation
