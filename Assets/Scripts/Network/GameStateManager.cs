@@ -33,6 +33,19 @@ public class GameStateManager : MonoBehaviour
         }
     };
 
+    [Serializable]
+    public struct WorldState
+    {
+        public Vector3 _playerPos;
+        public Vector3 _ballPos;
+
+        public WorldState(Vector3 ppos, Vector3 bpos)
+        {
+            _playerPos = ppos;
+            _ballPos = bpos;
+
+        }
+    };
 
     [HideInInspector]
     public ClientUDP clientUDPScript;
@@ -41,6 +54,11 @@ public class GameStateManager : MonoBehaviour
 
     public PlayerMovement localPlayer;
     public PlayerMovement remotePlayer;
+    
+    public float maxReplicationTime;
+    private float replicationTimer;
+
+    public bool server;
 
     PlayerInputData incomingData;
     PlayerInputData pendingToSendData;
@@ -67,11 +85,33 @@ public class GameStateManager : MonoBehaviour
         Thread inGameSend = new Thread(SendPlayerControls);
         inGameSend.Start();
 
+        if (IAmClient && clientUDPScript != null)
+        {
+            Thread inGameWorldReceive = new Thread(RecieveWorldState);
+            inGameWorldReceive.Start();
+        }
     }
 
     private void Update()
     {
         SetPlayerControls();
+
+        if (server)
+        {
+            if (replicationTimer >= maxReplicationTime)
+            {
+                replicationTimer = 0;
+
+                SendWorldState();
+            }
+            else
+            {
+                replicationTimer += Time.deltaTime;
+            }
+        }
+
+       //Debug.Log("timer: " + replicationTimer);
+
     }
 
     // Assign the received controls
@@ -179,4 +219,43 @@ public class GameStateManager : MonoBehaviour
         return data;
     }
 
+    public void SendWorldState()
+    {
+        WorldState data = new WorldState(localPlayer.gameObject.transform.position, localPlayer.ball.gameObject.transform.position);
+
+        byte[] buffer = StructToBytes(data);
+
+        //Debug.Log("data: " + data.ToString());
+        //Debug.Log("buffer: " + buffer.ToString());
+
+        if (serverUDPScript != null)
+        {
+            Debug.Log("WorldState sending to client");
+            serverUDPScript.socket.SendTo(buffer, SocketFlags.None, serverUDPScript.Remote);
+        }
+    }
+
+    public void RecieveWorldState()
+    {
+        while (true)
+        {
+            // Allocate a buffer to receive data
+            byte[] data = new byte[1024];
+            int recv = clientUDPScript.socket.ReceiveFrom(data, ref clientUDPScript.Remote);
+
+            // Trim the byte array to match the received data length
+            byte[] trimmedData = new byte[recv];
+            Array.Copy(data, trimmedData, recv);
+
+            // Deserialize the received data into a struct
+            //SetWorld Data
+            SetWorldData(GameStateManager.BytesToStruct<GameStateManager.WorldState>(trimmedData));
+        }
+    }
+
+    private void SetWorldData(WorldState data)
+    {
+        localPlayer.gameObject.transform.position = data._playerPos;
+        localPlayer.ball.gameObject.transform.position = data._ballPos;
+    }
 }

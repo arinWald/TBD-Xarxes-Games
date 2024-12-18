@@ -1075,6 +1075,10 @@ PrefabInstance:
       propertyPath: sliderTarget
       value: 
       objectReference: {fileID: 1785540113}
+    - target: {fileID: 6381911771612309820, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 339ae874b1655754b8901e776c62dd2b, type: 2}
     - target: {fileID: 7101677317875755619, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -2547,7 +2551,7 @@ MonoBehaviour:
   ServerResetPos: {x: 10, y: 0, z: 0}
   ClientResetPos: {x: -10, y: 0, z: 0}
   BallResetPos: {x: 0, y: 0.5, z: 0}
-  countdownMaxTime: 0
+  countdownMaxTime: 5
 --- !u!4 &554736891
 Transform:
   m_ObjectHideFlags: 0
@@ -4222,7 +4226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &896453592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4239,6 +4243,8 @@ MonoBehaviour:
   serverUDPScript: {fileID: 0}
   localPlayer: {fileID: 171074677}
   remotePlayer: {fileID: 1528674162}
+  maxReplicationTime: 5
+  server: 1
 --- !u!4 &896453593
 Transform:
   m_ObjectHideFlags: 0

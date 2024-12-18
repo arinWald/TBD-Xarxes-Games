@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = movement * movementSpeed;
         //Debug.Log(movement * movementSpeed);
-        Debug.Log(playerRB.velocity);
+        //Debug.Log(playerRB.velocity);
 
 
         //Player Orientation
@@ -143,7 +143,16 @@ public class PlayerMovement : MonoBehaviour
         kickSlider.transform.parent.gameObject.SetActive(hideSlider);
 
 
+        //Debug force missmatch
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            gameObject.transform.position += new Vector3(2f, 0f, 2f);
 
+        }//Debug force missmatch ball
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ball.gameObject.transform.position += new Vector3(-2f, 0f, -2f);
+        }
     }
 
     void GetInput()
