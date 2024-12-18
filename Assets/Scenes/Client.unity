@@ -2566,7 +2566,7 @@ MonoBehaviour:
   ServerResetPos: {x: 10, y: 0, z: 0}
   ClientResetPos: {x: -10, y: 0, z: 0}
   BallResetPos: {x: 0, y: 0.5, z: 0}
-  countdownMaxTime: 5
+  countdownMaxTime: 2
 --- !u!4 &554736891
 Transform:
   m_ObjectHideFlags: 0

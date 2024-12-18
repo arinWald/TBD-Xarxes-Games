@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     public void GoalReset()
     {
-            ResetPos();
+        ResetPos();
     }
 
     private void ResetPos()

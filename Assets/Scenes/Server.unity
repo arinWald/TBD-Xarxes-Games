@@ -7865,7 +7865,7 @@ MonoBehaviour:
   ServerResetPos: {x: 10, y: 0, z: 0}
   ClientResetPos: {x: -10, y: 0, z: 0}
   BallResetPos: {x: 0, y: 0.5, z: 0}
-  countdownMaxTime: 0
+  countdownMaxTime: 2
 --- !u!4 &720293183
 Transform:
   m_ObjectHideFlags: 0
@@ -12325,7 +12325,7 @@ MonoBehaviour:
   serverUDPScript: {fileID: 0}
   localPlayer: {fileID: 1659646164}
   remotePlayer: {fileID: 2130138751}
-  maxReplicationTime: 10
+  maxReplicationTime: 1
   server: 1
 --- !u!4 &2061259094
 Transform:
