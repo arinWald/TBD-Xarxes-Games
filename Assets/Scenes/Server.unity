@@ -12308,7 +12308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2061259093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12325,8 +12325,8 @@ MonoBehaviour:
   serverUDPScript: {fileID: 0}
   localPlayer: {fileID: 1659646164}
   remotePlayer: {fileID: 2130138751}
-  maxReplicationTime: 0
-  server: 0
+  maxReplicationTime: 10
+  server: 1
 --- !u!4 &2061259094
 Transform:
   m_ObjectHideFlags: 0
@@ -12630,6 +12630,10 @@ PrefabInstance:
       propertyPath: sliderTarget
       value: 
       objectReference: {fileID: 430031236}
+    - target: {fileID: 6381911771612309820, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 339ae874b1655754b8901e776c62dd2b, type: 2}
     - target: {fileID: 7101677317875755619, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

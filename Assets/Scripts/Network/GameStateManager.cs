@@ -96,6 +96,8 @@ public class GameStateManager : MonoBehaviour
     {
         SetPlayerControls();
 
+        Debug.Log("TITOLAAAAAAAAAAAAAAAAAAAAAAA");
+
         if (server)
         {
             if (replicationTimer >= maxReplicationTime)

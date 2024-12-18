@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         // Dash input logic
         if (shiftInputDown && dashCDTimer <= 0f && dashDurationTimer <= 0f)
         {
-            Debug.Log("Dash");
+            //Debug.Log("Dash");
 
             // Apply the dash force
             playerRB.AddForce(gameObject.transform.forward * dashImpulse, ForceMode.Impulse);
@@ -176,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
             if (dashing)
             {
                 dashing = false;
-                Debug.Log("Dash Ended");
+                //Debug.Log("Dash Ended");
             }
         }
 
