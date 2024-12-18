@@ -449,9 +449,12 @@ MonoBehaviour:
   spaceInput: 0
   spaceInputUp: 0
   spaceInputDown: 0
-  shiftInput: 0
+  shiftInputDown: 0
   rotationAngle: 0
   movementSpeed: 10
+  dashImpulse: 20
+  dashCD: 3
+  dashDuration: 0.2
   ball: {fileID: 0}
   kickStrenght: 1000
   kickMaxTime: 1.5

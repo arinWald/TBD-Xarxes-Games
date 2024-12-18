@@ -11273,6 +11273,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1418262607}
     - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: dashCD
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: dashImpulse
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: dashDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380687048637078922, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: sliderTarget
       value: 
       objectReference: {fileID: 430031236}
@@ -11299,6 +11311,14 @@ PrefabInstance:
     - target: {fileID: 8113374304371421437, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233719493282225215, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233719493282225215, guid: 84b4b1515e7306e43865efddf8072c52, type: 3}
+      propertyPath: m_Constraints
+      value: 116
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12305,6 +12325,8 @@ MonoBehaviour:
   serverUDPScript: {fileID: 0}
   localPlayer: {fileID: 1659646164}
   remotePlayer: {fileID: 2130138751}
+  maxReplicationTime: 0
+  server: 0
 --- !u!4 &2061259094
 Transform:
   m_ObjectHideFlags: 0

@@ -9,11 +9,18 @@ public class PlayerMovement : MonoBehaviour
     public bool spaceInput = false;
     public bool spaceInputUp = false;
     public bool spaceInputDown = false;
-    public bool shiftInput = false;
+    public bool shiftInputDown = false;
     public float rotationAngle = 0f;
 
     [Header("Movement")]
     public float movementSpeed;
+
+    [Header("Dash")]
+    public float dashImpulse;
+    public float dashCD;
+    private float dashCDTimer = 0f;
+    public float dashDuration;
+    private float dashDurationTimer = 0f;
 
     [Header("Ball")]
     public GameObject ball;
@@ -42,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody playerRB;
 
+    private bool dashing = false;
+
     void Start()
     {
         playerRB = gameObject.GetComponent<Rigidbody>();
@@ -61,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
         if(!IAmRemote)
         {
             GetInput();
@@ -91,20 +99,24 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+
         //Move Player
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput);
 
-        if (movement.magnitude > 1)
+        if (!dashing)
         {
-            movement.Normalize();
+            Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput);
+
+            if (movement.magnitude > 1)
+            {
+                movement.Normalize();
+            }
+
+            //transform.position += movement * movementSpeed * Time.deltaTime;
+
+            playerRB.velocity = movement * movementSpeed;
+            //Debug.Log(movement * movementSpeed);
+            //Debug.Log(playerRB.velocity);
         }
-
-        //transform.position += movement * movementSpeed * Time.deltaTime;
-
-        playerRB.velocity = movement * movementSpeed;
-        //Debug.Log(movement * movementSpeed);
-        //Debug.Log(playerRB.velocity);
-
 
         //Player Orientation
 
@@ -128,6 +140,43 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 snatchTime--;
+            }
+        }
+
+        // Dash input logic
+        if (shiftInputDown && dashCDTimer <= 0f && dashDurationTimer <= 0f)
+        {
+            Debug.Log("Dash");
+
+            // Apply the dash force
+            playerRB.AddForce(gameObject.transform.forward * dashImpulse, ForceMode.Impulse);
+
+            // Reset the cooldown and dash duration timers
+            dashCDTimer = dashCD;
+            dashDurationTimer = dashDuration;
+
+            // Set the dashing state
+            dashing = true;
+        }
+
+        // Decrease cooldown timer
+        if (dashCDTimer > 0)
+        {
+            dashCDTimer -= Time.deltaTime;
+        }
+
+        // Decrease dash duration timer and stop dashing when the duration is over
+        if (dashDurationTimer > 0)
+        {
+            dashDurationTimer -= Time.deltaTime;
+        }
+        else
+        {
+            // Stop dashing once the duration ends
+            if (dashing)
+            {
+                dashing = false;
+                Debug.Log("Dash Ended");
             }
         }
 
@@ -170,6 +219,6 @@ public class PlayerMovement : MonoBehaviour
         spaceInput = Input.GetKey(KeyCode.Space);
         spaceInputUp = Input.GetKeyUp(KeyCode.Space);
         spaceInputDown = Input.GetKeyDown(KeyCode.Space);
-        shiftInput = Input.GetKey(KeyCode.LeftShift);
+        shiftInputDown = Input.GetKeyDown(KeyCode.LeftShift);
     }
 }
