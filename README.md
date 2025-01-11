@@ -4,8 +4,9 @@ By **Arnau González**, **Biel Rubio**, and **Pau Argiz**.
 
 Step into a futuristic arena where two robotic contenders face off in a fast-paced battle for victory! In this 2-player competitive game, each player controls a sleek, trail-leaving robot in a glowing, Tron-inspired environment. The objective is simple: grab the ball and score in your opponent's goal while outmaneuvering their defenses. Strategic movement, quick reflexes, and precise timing are key to dominating the arena. With stunning neon visuals and intense gameplay, this game delivers an electrifying experience for players looking to test their skills and claim the title of ultimate robo-champion!
 
-**GitHub Link:** [https://github.com/arinWald/TBD-Xarxes-Games](https://github.com/arinWald/TBD-Xarxes-Games)
-**Github Release:** [https://github.com/arinWald/TBD-Xarxes-Games/releases/tag/1.0_FinalRelease](https://github.com/arinWald/TBD-Xarxes-Games/releases/tag/1.0_FinalRelease)
+**[Github Link](https://github.com/arinWald/TBD-Xarxes-Games)**
+
+**[Github Release](https://github.com/arinWald/TBD-Xarxes-Games/releases/tag/1.0_FinalRelease)**
 
 ---
 
