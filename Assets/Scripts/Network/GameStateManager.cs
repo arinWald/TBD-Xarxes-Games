@@ -8,6 +8,8 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine.SceneManagement;
 using static GameStateManager;
+using System.Collections.Generic;
+
 
 public class GameStateManager : MonoBehaviour
 {
@@ -23,7 +25,11 @@ public class GameStateManager : MonoBehaviour
         public bool send_spaceInputDown;
         public bool send_shiftInputDown;
 
-        public PlayerInputData(float h, float v, bool space, bool spaceUp, bool spaceDown, bool shiftDown, float rotAng)
+        // Ping Time
+        public int send_timeStamp_ms;
+
+        public PlayerInputData(float h, float v, bool space, bool spaceUp, 
+            bool spaceDown, bool shiftDown, float rotAng, System.DateTime timeStamp)
         {
             send_horizontalInput = h;
             send_verticalInput = v;
@@ -32,6 +38,7 @@ public class GameStateManager : MonoBehaviour
             send_spaceInputUp = spaceUp;
             send_spaceInputDown = spaceDown;
             send_shiftInputDown = shiftDown;
+            send_timeStamp_ms = timeStamp.Millisecond;           
         }
     };
 
@@ -60,7 +67,7 @@ public class GameStateManager : MonoBehaviour
             _ballRot = brot;
             _ballVel = bVel;
             _playerID = pID;
-    }
+        }
     };
 
     [HideInInspector]
@@ -84,7 +91,9 @@ public class GameStateManager : MonoBehaviour
 
     bool IAmClient;
 
-
+    //Ping
+    float secCounter = 0f;
+    public TextMeshProUGUI pingDisplay;
 
     private void Start()
     {
@@ -104,6 +113,8 @@ public class GameStateManager : MonoBehaviour
 
         Thread inGameSend = new Thread(SendPlayerControls);
         inGameSend.Start();
+
+        
 
     }
 
@@ -145,6 +156,49 @@ public class GameStateManager : MonoBehaviour
         remotePlayer.shiftInputDown = incomingData.send_shiftInputDown;
         remotePlayer.rotationAngle = incomingData.send_rotationAngle;
 
+        GetPing(incomingData.send_timeStamp_ms);
+    }
+
+    void GetPing(int timeStamp)
+    {
+        int pingTime;
+
+        pingTime = System.DateTime.Now.Millisecond - timeStamp;
+
+        //Debug.Log("DateTime Now: " + System.DateTime.Now.ToString());
+        //Debug.Log("Time Span: " + pingTime.ToString());
+
+        
+        // List of pings each frame
+        List<int> pingList = new List<int>();
+
+
+        pingList.Add(pingTime);
+
+        // Calculate average ping each second
+        if (secCounter >= 1f)
+        {
+            int avgPing = 0;
+
+            foreach(int i in pingList)
+            {
+                avgPing += i;
+            }
+            
+            if(pingList.Count > 0)
+            {
+                avgPing /= pingList.Count;
+            }            
+
+            pingList.Clear();
+
+            secCounter = 0f;
+
+            pingDisplay.text = avgPing.ToString() + "ms";
+
+            Debug.Log("AVG Ping" + avgPing.ToString());
+        }
+        secCounter += Time.deltaTime;
     }
 
     // Send current controls
@@ -159,7 +213,8 @@ public class GameStateManager : MonoBehaviour
             localPlayer.spaceInputUp,
             localPlayer.spaceInputDown,
             localPlayer.shiftInputDown,
-            localPlayer.rotationAngle
+            localPlayer.rotationAngle,
+            System.DateTime.Now
             );
 
             byte[] buffer = StructToBytes(data);
