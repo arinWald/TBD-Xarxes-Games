@@ -84,11 +84,13 @@ public class Ball : MonoBehaviour
         {
             manager.serverScore++;
             manager.GoalReset();
+            playerInPossesion = null;
         }
         if (other.name == "Goal" && other.tag == "server")
         {
             manager.clientScore++;
             manager.GoalReset();
+            playerInPossesion = null;
         }
     }
     private void OnTriggerStay(Collider other)

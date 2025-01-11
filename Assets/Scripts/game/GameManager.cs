@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -64,10 +65,12 @@ public class GameManager : MonoBehaviour
     }
 
     private void ResetPos()
-    {
+    {       
         ServerGO.transform.position = ServerResetPos;
         ClientGO.transform.position = ClientResetPos;
-        BallGO.transform.position = BallResetPos;
+
+        BallGO.transform.SetParent(null);
         BallGO.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        BallGO.transform.position = BallResetPos;
     }
 }
