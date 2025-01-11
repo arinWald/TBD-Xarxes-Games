@@ -7,6 +7,7 @@ using TMPro;
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine.SceneManagement;
+using static GameStateManager;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -34,19 +35,32 @@ public class GameStateManager : MonoBehaviour
         }
     };
 
+    public enum playerID
+    {
+        NULL,
+        SERVER,
+        CLIENT
+    };
+
     [Serializable]
     public struct WorldState
     {
         public Vector3 _serverPos;
         public Vector3 _clientPos;
         public Vector3 _ballPos;
+        public Vector3 _ballRot;
+        public Vector3 _ballVel;
+        public playerID _playerID;
 
-        public WorldState(Vector3 spos, Vector3 cpos, Vector3 bpos)
+        public WorldState(Vector3 spos, Vector3 cpos, Vector3 bpos, Vector3 brot, Vector3 bVel, playerID pID)
         {
             _serverPos = spos;
             _clientPos = cpos;
             _ballPos = bpos;
-        }
+            _ballRot = brot;
+            _ballVel = bVel;
+            _playerID = pID;
+    }
     };
 
     [HideInInspector]
@@ -69,6 +83,7 @@ public class GameStateManager : MonoBehaviour
     bool setWorldData;
 
     bool IAmClient;
+
 
 
     private void Start()
@@ -245,16 +260,31 @@ public class GameStateManager : MonoBehaviour
     {
         Debug.Log("Send world state");
 
+        playerID whatPlayerhasBall = playerID.NULL;
+        GameObject temp = localPlayer.ball.GetComponent<Ball>().playerInPossesion;
+
+
+        if (temp != null)
+        {
+            if(temp.name == "ClientPlayer")
+            {
+                whatPlayerhasBall = playerID.CLIENT;
+            }
+            else if(temp.name == "ServerPlayer")
+            {
+                whatPlayerhasBall = playerID.SERVER;
+            }
+        }
+
         WorldState data = new WorldState(localPlayer.gameObject.transform.position,
                                         remotePlayer.gameObject.transform.position,
-                                        localPlayer.ball.gameObject.transform.position);
-        //WorldState data = new WorldState(localPlayer.ball.gameObject.transform.position.x,
-        //                        localPlayer.ball.gameObject.transform.position.z);
+                                        localPlayer.ball.gameObject.transform.position,
+                                        localPlayer.ball.gameObject.transform.eulerAngles,
+                                        localPlayer.ball.gameObject.GetComponent<Rigidbody>().velocity,
+                                        whatPlayerhasBall);
 
         byte[] buffer = StructToBytes(data);
 
-        //Debug.Log("data: " + data.ToString());
-        //Debug.Log("buffer: " + buffer.ToString());
 
         if (serverUDPScript != null)
         {
@@ -267,9 +297,28 @@ public class GameStateManager : MonoBehaviour
     {
         localPlayer.gameObject.transform.position = worldStateData._clientPos;
         localPlayer.ball.gameObject.transform.position = worldStateData._ballPos;
+        localPlayer.ball.gameObject.transform.eulerAngles = worldStateData._ballRot;
+        localPlayer.ball.gameObject.GetComponent<Rigidbody>().velocity = worldStateData._ballVel;
         remotePlayer.gameObject.transform.position = worldStateData._serverPos;
+
+        // POV from Client (remote is Server)
+
+        switch (worldStateData._playerID)
+        {
+            case playerID.NULL:
+                localPlayer.ball.GetComponent<Ball>().playerInPossesion = null;
+                break;
+            case playerID.SERVER:
+                localPlayer.ball.GetComponent<Ball>().playerInPossesion = remotePlayer.gameObject;
+                break;
+            case playerID.CLIENT:
+                localPlayer.ball.GetComponent<Ball>().playerInPossesion = localPlayer.gameObject;
+                break;
+        }
+
         Debug.Log("Setting World Data: \n" + worldStateData._serverPos + "\n" +
-            worldStateData._ballPos + "\n" + worldStateData._clientPos);
+            worldStateData._ballPos + "\n" + worldStateData._clientPos + "\n" +
+            worldStateData._playerID.ToString());
     }
 
 

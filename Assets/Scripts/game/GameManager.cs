@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,11 +30,13 @@ public class GameManager : MonoBehaviour
 
     public Vector3 BallResetPos;
 
-    private float countdownTime;
-    public float countdownMaxTime;
+    public float countdownTime;
+    public int countdownMaxTime = 4;
+    private bool isCountdown = false;
+
+    public TextMeshProUGUI countdownText;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         serverText = serverTextObj.GetComponent<TextMeshProUGUI>();
@@ -41,7 +44,6 @@ public class GameManager : MonoBehaviour
         winText = winTextGameObject.GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         clientText.text = clientScore.ToString();
@@ -61,11 +63,36 @@ public class GameManager : MonoBehaviour
 
     public void GoalReset()
     {
+        StartCoroutine(WaitAndReset());
+    }
+
+    private IEnumerator WaitAndReset()
+    {
         ResetPos();
+
+        Time.timeScale = 0.0f;
+
+        // Display countdown
+        for (int i = countdownMaxTime; i > 0; i--)
+        {
+            countdownText.text = (i-1).ToString();
+            if(i == 1)
+            {
+                countdownText.text = "GO!";
+            }
+
+            countdownText.gameObject.transform.parent.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(1f);
+        }
+
+        countdownText.gameObject.transform.parent.gameObject.SetActive(false);
+
+        Time.timeScale = 1.0f;
     }
 
     private void ResetPos()
-    {       
+    {
+
         ServerGO.transform.position = ServerResetPos;
         ClientGO.transform.position = ClientResetPos;
 

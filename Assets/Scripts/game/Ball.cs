@@ -12,7 +12,8 @@ public class Ball : MonoBehaviour
     private PlayerMovement serverControls;
     private PlayerMovement clientControls;
 
-    private GameObject playerInPossesion;
+    [HideInInspector]
+    public GameObject playerInPossesion;
 
     private Rigidbody ballRb;
 
