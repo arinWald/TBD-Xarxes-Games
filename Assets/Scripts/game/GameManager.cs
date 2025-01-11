@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
 
     public void GoalReset()
     {
+        if (serverScore >= 5 || clientScore >= 5)
+        {
+            return;
+        }
         StartCoroutine(WaitAndReset());
     }
 

@@ -81,7 +81,9 @@ public class Ball : MonoBehaviour
                 serverControls.ballPossesion = true;
             }
         }
-        if (other.name == "Goal" && other.tag=="client")
+
+
+        if (other.name == "Goal" && other.tag == "client")
         {
             manager.serverScore++;
             manager.GoalReset();
